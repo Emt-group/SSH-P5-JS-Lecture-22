@@ -83,7 +83,8 @@ function arrays() {
 
     for (let i = 0; i < scores.length; i++) {
         if (scores[i] < 80) {
-            scores.splice(i);
+            scores.splice(i, 1);
+            i--;
         }
     }
 
