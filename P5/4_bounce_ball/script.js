@@ -62,12 +62,12 @@ class Ball {
     // 화면 밖으로 나갔을 때의 예외 처리
     edge() {
         // x 성분을 반전
-        if ((this.pos.x - this.radius <= 0) || (this.pos.x + this.radius >= width)) {
+        if (this.pos.x - this.radius < 0 || this.pos.x + this.radius > width) {
             this.vel.x *= -1;
         } 
         
         // y 성분을 반전
-        if ((this.pos.y - this.radius <= 0) || (this.pos.y + this.radius >= height)) {
+        if (this.pos.y - this.radius < 0 || this.pos.y + this.radius > height) {
             this.vel.y *= -1;
         }
 
