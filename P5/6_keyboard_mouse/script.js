@@ -6,7 +6,7 @@
  */
 
 let g, gravity;     // 중력 관련 변수
-let wind;           // 바람 관련 변수
+let windForce, wind;           // 바람 관련 변수
 let balls;          // 공에 대한 변수
 
 function setup() {
@@ -14,7 +14,9 @@ function setup() {
 
     g = 0.8;        // 중력 가속도 상수 설정
     gravity = createVector(0, g);       // 중력 설정 (벡터)
-    wind = createVector(-1, 0);         // 바람 설정 (벡터)
+
+    windForce = 0.5;  // 바람 가속도 상수 설정
+    wind = createVector(0, 0);          // 바람 설정 (벡터)
 
     balls = [];     // 공을 저장할 빈 배열 생성
 }
@@ -25,11 +27,13 @@ function draw() {
     // balls에 저장된 공에 대한 물리 연산
     for (let i = 0; i < balls.length; i++) {
         balls[i].applyForce(gravity);
+        balls[i].applyForce(wind);
 
         balls[i].update();
 
         // 다른 공들과의 충돌 판정
         for (let j = 0; j < balls.length; j++) {
+            // 자기 자신과의 충돌 판정은 하지 않는다
             if (i === j) {
                 continue;
             }
@@ -42,13 +46,30 @@ function draw() {
     }
 }
 
+// 마우스 클릭 시에 실행될 함수
 function mousePressed() {
-    let newBall = new Ball(mouseX, mouseY, 12.5, color(random() * 255));
-    //newBall.vel = createVector(5, 10);
-    balls.push(newBall);
+    let newBall = new Ball(mouseX, mouseY, 12.5, color(random(127, 255)));      // 새로운 공 객체 생성
+    newBall.vel = createVector(random(-5, 5), random(-10, 10));                 // 공의 초기 속도 설정
+    balls.push(newBall);        // 공 추가
 }
 
+// 키보드 입력 시에 실행될 함수
 function keyPressed() {
+    // 스페이스바 입력 시 바람 제거
+    // 방향키 입력 시 바람 생성 (방향키 방향의 힘 생성)
+
+    if (keyCode === ' ') {
+        wind.mult(0);
+    } else if (keyCode === LEFT_ARROW) {
+        console.log('hi');
+        wind = createVector(-windForce, 0);
+    } else if (keyCode === RIGHT_ARROW) {
+        wind = createVector(windForce, 0);
+    } else if (keyCode === DOWN_ARROW) {
+        wind = createVector(0, windForce);
+    } else if (keyCode === UP_ARROW) {
+        wind = createVector(0, -windForce);
+    }
 }
 
 class Ball {
@@ -97,7 +118,7 @@ class Ball {
         } 
 
         // y 성분을 반전
-        if (this.pos.y - this.raidus < 0) {
+        if (this.pos.y - this.radius < 0) {
             this.pos.y = this.radius + 1;
             this.vel.y *= -1;
         } else if (this.pos.y + this.radius > height) {

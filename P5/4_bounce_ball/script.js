@@ -75,7 +75,7 @@ class Ball {
         } 
 
         // y 성분을 반전
-        if (this.pos.y - this.raidus < 0) {
+        if (this.pos.y - this.radius < 0) {
             this.pos.y = this.radius + 1;
             this.vel.y *= -1;
         } else if (this.pos.y + this.radius > height) {
