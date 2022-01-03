@@ -1,13 +1,13 @@
 // p5.js 사용하기 예제 코드
-// 4. 바운스볼 만들기
+// 5. 충돌 판정
 /* 
- * 속도 벡터의 성분을 분석하여 공의 움직임을 조작할 수 있다.
- * 중력 시뮬레이션 프로그램을 수정하여 탄성체를 만들 수 있다.
+ * 히트 박스에 대한 개념을 설명할 수 있다.
+ * 두 개 이상의 공에 대한 충돌 판정을 수행할 수 있다.
  */
 
 let g, gravity;     // 중력 관련 변수
 let wind;           // 바람 관련 변수
-let b;              // 공에 대한 변수
+let balls;          // 공에 대한 변수
 
 function setup() {
     createCanvas(400, 400);
@@ -16,24 +16,43 @@ function setup() {
     gravity = createVector(0, g);       // 중력 설정 (벡터)
     wind = createVector(-1, 0);         // 바람 설정 (벡터)
 
-    b = new Ball(width / 2, height / 2, 12.5);       // 새로운 공 생성 (초기 위치와 반지름 필요)
-    //b.vel = createVector(10, 20);                    // 공의 초기 속도 설성 (옵션)
+    balls = [];     // 공을 저장할 빈 배열 생성
 }
 
 function draw() {
     background(50);
 
-    b.applyForce(gravity);    // 중력 적용
-    //b.applyForce(wind);       // 바람 힘 적용 (옵션)
+    // balls에 저장된 공에 대한 물리 연산
+    for (let i = 0; i < balls.length; i++) {
+        balls[i].applyForce(gravity);
 
-    b.update();               // 공 상태 업데이트 (위치, 속도, 가속도)
-    b.edge();                 // 공이 화면 밖으로 나갔을 때의 예외 처리
+        balls[i].update();
 
-    b.show();                 // 공 그리기
+        // 다른 공들과의 충돌 판정
+        for (let j = 0; j < balls.length; j++) {
+            if (i === j) {
+                continue;
+            }
+
+            balls[i].collide(balls[j]);
+        }
+
+        balls[i].edge();
+        balls[i].show();
+    }
+}
+
+function mousePressed() {
+    let newBall = new Ball(mouseX, mouseY, 12.5, color(random() * 255));
+    //newBall.vel = createVector(5, 10);
+    balls.push(newBall);
+}
+
+function keyPressed() {
 }
 
 class Ball {
-    constructor(x, y, radius) {
+    constructor(x, y, radius, color) {
         // 공에 대한 위치, 속도, 가속도 벡터 설정
         this.pos = createVector(x, y);
         this.vel = createVector(0, 0);
@@ -41,6 +60,9 @@ class Ball {
 
         // 공의 크기 설정
         this.radius = radius;
+
+        // 공의 색상 설정
+        this.color = color;
 
         // 공의 속력 제한
         this.speedLimit = 20;
@@ -83,10 +105,24 @@ class Ball {
             this.vel.y *= -1;
         } 
     }
+    
+    // 다른 공에 대한 충돌 판정하기
+    collide(other) {
+        let threshold = this.radius + other.radius;         // 다른 공과 가까워질 수 있는 최소 거리 (이보다 거리가 작으면 충돌로 간주)
+        let distance = dist(this.pos.x, this.pos.y, other.pos.x, other.pos.y);           // 다른 공과의 실제 거리
+
+        if (distance < threshold) {
+            this.vel.mult(-1);          // 탄성 충돌이므로 속도 반전
+            other.vel.mult(-1);
+
+            this.pos.add(this.vel);     // 두 공의 위치가 충돌하지 않도록 위치 재조정
+            other.pos.add(other.vel);
+        }
+    }
 
     // 공 그리기
     show() {
-        fill(255);      // 공 색상 설정
+        fill(this.color);      // 공 색상 설정
         noStroke();     // 공 테두리 설정
         ellipse(this.pos.x, this.pos.y, this.radius * 2, this.radius * 2);      // 공 그리기
     }
