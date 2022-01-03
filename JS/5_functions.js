@@ -19,9 +19,10 @@ function functions() {
     let goodStudent1 = getGoodStudent(scores.slice(), 50);
     let goodStudent2 = getGoodStudent(scores.slice(), 70);
 
-    console.log(scores);
-    console.log(goodStudent1);
-    console.log(goodStudent2);
+    console.log('[함수를 사용해서 장학생 선별하기]');
+    console.log(`scores: ${scores}`);
+    console.log(`goodStudents1: ${goodStudent1}`);
+    console.log(`goodStudents2: ${goodStudent2}`);
 }
 
 function printHi() {
