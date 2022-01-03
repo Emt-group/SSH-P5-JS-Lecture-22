@@ -10,8 +10,9 @@ function keyPressed() {
     // 스페이스바 입력 시 바람 제거
     // 방향키 입력 시 바람 생성 (방향키 방향의 힘 생성)
 
-    if (keyCode === ' ') {
-        wind.mult(0);
+    // 32: 스페이스바
+    if (keyCode === 32) {
+        wind = createVector(0, 0);
     } else if (keyCode === LEFT_ARROW) {
         wind = createVector(-windForce, 0);
     } else if (keyCode === RIGHT_ARROW) {
