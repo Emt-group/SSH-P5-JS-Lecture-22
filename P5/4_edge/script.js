@@ -30,10 +30,30 @@ function draw() {
     drawBox();
 
     // 상자 움직이기
-    box
+    moveBox(boxSpeed, boxSpeed * 2);
 
-    // 상자 방향 전환하기
-    switchBoxDirectionIfNeeded();
+    // 상자가 오른쪽 벽면을 넘어서면
+    if (boxX > width) {
+        boxX = -boxSize;
+    }
+    
+    // 상자가 왼쪽 벽면을 넘어서면
+    else if (boxX + boxSize < 0) {
+        boxX = width;
+    }
+
+    // 상자가 아래쪽 벽면을 넘어서면
+    if (boxY > height) {
+        boxY = -boxSize;
+    }
+    
+    // 상자가 위쪽 벽면을 넘어서면
+    else if (boxY + boxSize < 0) {
+        boxY = height;
+    }
+
+    // 모서리 예외 처리하기 함수화
+    handleBoxEdge();
 }
 
 // 상자를 그려주는 함수
@@ -42,12 +62,22 @@ function drawBox() {
 }
 
 // 상자의 위치를 amount만큼 움직이는 함수
-function moveBox(amount) {
-    boxX += amount;
-    boxY += amount;
+function moveBox(amountX, amountY) {
+    boxX += amountX;
+    boxY += amountY;
 }
 
 // 방향 전환이 필요하다면 상자의 방향을 전환하는 함수
 function handleBoxEdge() {
+    if (boxX > width) {
+        boxX = -boxSize;
+    } else if (boxX + boxSize < 0) {
+        boxX = width;
+    }
 
+    if (boxY > height) {
+        boxY = -boxSize;
+    } else if (boxY + boxSize < 0) {
+        boxY = height;
+    }
 }
