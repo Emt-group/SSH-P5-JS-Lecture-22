@@ -77,7 +77,7 @@ function moveBox(amountX, amountY) {
     boxY += amountY;
 }
 
-// 방향 전환이 필요하다면 상자의 방향을 전환하는 함수
+// 상자가 모서리에 다다랐을 때의 예외 처리
 function handleBoxEdge() {
     if (boxX > width) {
         boxX = -boxSize;
