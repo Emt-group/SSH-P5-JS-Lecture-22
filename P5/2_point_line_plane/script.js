@@ -22,7 +22,7 @@ function draw() {
     line(width / 2, 0, width / 2, height);      // y축 그리기
 
     // 면 그려보기
-    let rectSize = 100;     // 사각형의 크기 설정
+    var rectSize = 100;     // 사각형의 크기 설정
 
     fill(127, 127);     // 채우는 색상 설정 (회색조, 알파)
     rect(width / 2 - rectSize / 2, height / 2 - rectSize / 2, rectSize);        // 사각형 그리기

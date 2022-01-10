@@ -4,11 +4,11 @@
  * 키보드와 마우스 입력을 통해 움직이는 상자를 조종할 수 있다.
  */
 
-let boxSize;        // 상자의 크기
-let boxX, boxY;     // 상자의 위치
+var boxSize;        // 상자의 크기
+var boxX, boxY;     // 상자의 위치
 
-let boxSpeed;       // 상자의 속력
-let boxDirection;   // 상자의 방향
+var boxSpeed;       // 상자의 속력
+var boxDirection;   // 상자의 방향
 
 function setup() {
     createCanvas(400, 400);

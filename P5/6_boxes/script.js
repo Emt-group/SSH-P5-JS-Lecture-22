@@ -5,10 +5,10 @@
  */
 
 // 박스에 대한 정보를 저장할 변수 (배열로 사용할 것임)
-let boxSizes;
-let boxColors;
-let X, Y;
-let sX, sY;
+var boxSizes;
+var boxColors;
+var X, Y;
+var sX, sY;
 
 function setup() {
     createCanvas(400, 400);
@@ -21,7 +21,7 @@ function setup() {
     sX = [];
     sY = [];
 
-    for (let i = 0; i < 10; i++) {
+    for (var i = 0; i < 10; i++) {
         // 빈 배열에 push하여 박스 속성 설정
         // 모든 값은 random 함수를 이용함
         boxSizes.push(random(50));
@@ -49,7 +49,7 @@ function draw() {
 
 // 모든 상자 그리기
 function drawBoxes() {
-    for (let i = 0; i < boxSizes.length; i++) {
+    for (var i = 0; i < boxSizes.length; i++) {
         fill(boxColors[i]);
         rect(X[i] - boxSizes[i] / 2, Y[i] - boxSizes[i] / 2, boxSizes[i], boxSizes[i]);
     }
@@ -57,7 +57,7 @@ function drawBoxes() {
 
 // 모든 상자 움직이기
 function moveBoxes() {
-    for (let i = 0; i < boxSizes.length; i++) {
+    for (var i = 0; i < boxSizes.length; i++) {
         X[i] += sX[i];
         Y[i] += sY[i];
     }
@@ -65,7 +65,7 @@ function moveBoxes() {
 
 // 모든 상자에 대한 모서리 예외 처리
 function handleBoxEdges() {
-    for (let i = 0; i < boxSizes.length; i++) {
+    for (var i = 0; i < boxSizes.length; i++) {
         if (X[i] > width) {
             X[i] = -boxSizes[i];
         } else if (X[i] + boxSizes[i] < 0) {
