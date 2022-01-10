@@ -4,7 +4,7 @@
  * p5.js에서 캔버스의 좌표계를 설명할 수 있다.
  */
 
-let trans;
+var trans;
 
 function setup() {
     createCanvas(400,400);      // 400 * 400 크기의 캔버스 생성

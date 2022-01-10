@@ -4,11 +4,11 @@
  * 상자가 화면 밖을 나갔을 때 반대변 화면으로 나올 수 있도록 한다.
  */
 
-let boxSize;        // 상자의 크기
-let boxX, boxY;     // 상자의 위치
+var boxSize;        // 상자의 크기
+var boxX, boxY;     // 상자의 위치
 
-let boxSpeed;       // 상자의 속력
-let boxDirection;   // 상자의 방향
+var boxSpeed;       // 상자의 속력
+var boxDirection;   // 상자의 방향
 
 function setup() {
     createCanvas(400, 400);
