@@ -48,9 +48,9 @@ function drawBox() {
 
 function moveBox() {
     // formula에 의한 위치 계산하기
-    // var formula = { formula: t, initial: 0, final: 1 };                    // 선형 위치
-    // var formula = { formula: t * t, initial: 0, final: 1 };                // 이차 위치
-    // var formula = { formula: t * t * t, initial: 0, final: 1 };            // 삼차 위치
+    // var formula = { formula: t, initial: 0, final: 1 };                       // 선형 위치
+    // var formula = { formula: t * t, initial: 0, final: 1 };                   // 이차 위치
+    // var formula = { formula: t * t * t, initial: 0, final: 1 };               // 삼차 위치
     var formula = { formula: abs(sin(t)), initial: 0, final: TWO_PI };        // 삼각함수
 
     boxPos = getPosByFormula(formula);   // 구간의 양 끝 값도 필요
