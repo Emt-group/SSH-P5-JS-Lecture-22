@@ -51,7 +51,7 @@ function draw() {
     // if (boxDirection === 0) {
     //     moveBox(boxSpeed, boxSpeed);
     // } else if (boxDirection === 1) {
-    //     moveBox(-boxSpeed, boxSpeed);
+    //     moveBox(-boxSpeed, -boxSpeed);
     // }
 
     // 상자의 위치가 특정 좌표 이상이면 방향을 바꾼다 (우하단 -> 좌상단)
@@ -87,6 +87,4 @@ function switchBoxDirectionIfNeeded() {
     } else if (boxX <= width / 4 - boxSize / 2) {
         boxDirection = 0;
     }
-
-    console.log(boxDirection);
 }

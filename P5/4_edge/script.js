@@ -53,7 +53,7 @@ function draw() {
     }
 
     // 모서리 예외 처리하기 함수화
-    handleBoxEdge();
+    // handleBoxEdge();
 }
 
 // 상자를 그려주는 함수
