@@ -1,7 +1,7 @@
 // p5.js 사용하기 예제 코드
-// 4. 모서리 예외 처리하기
+// 8. 키보드와 마우스 입력 제어하기
 /* 
- * 상자가 화면 밖을 나갔을 때 반대변 화면으로 나올 수 있도록 한다.
+ * 키보드와 마우스 입력을 통해 움직이는 상자를 조종할 수 있다.
  */
 
 var boxSize;        // 상자의 크기
@@ -29,31 +29,41 @@ function draw() {
     // 상자 그리기
     drawBox();
 
-    // 상자 움직이기
-    moveBox(boxSpeed, boxSpeed * 2);
+    // 모서리 예외 처리하기
+    handleBoxEdge();
+}
 
-    // 상자가 오른쪽 벽면을 넘어서면
-    if (boxX > width) {
-        boxX = -boxSize;
+// 마우스 조작 제어
+function mousePressed() {
+    if (mouseButton === LEFT) {
+        boxSpeed += 2;
     }
     
-    // 상자가 왼쪽 벽면을 넘어서면
-    else if (boxX + boxSize < 0) {
-        boxX = width;
+    else if (mouseButton === CENTER) {
+        boxSpeed -= 2;
+
+        if (boxSpeed < 0)
+            boxSpeed = 0;
+    }
+}
+
+// 키보드 조작 제어
+function keyPressed() {
+    if (keyCode === UP_ARROW) {
+        moveBox(0, -boxSpeed);
     }
 
-    // 상자가 아래쪽 벽면을 넘어서면
-    if (boxY > height) {
-        boxY = -boxSize;
-    }
-    
-    // 상자가 위쪽 벽면을 넘어서면
-    else if (boxY + boxSize < 0) {
-        boxY = height;
+    else if (keyCode === DOWN_ARROW) {
+        moveBox(0, boxSpeed);
     }
 
-    // 모서리 예외 처리하기 함수화
-    // handleBoxEdge();
+    else if (keyCode === LEFT_ARROW) {
+        moveBox(-boxSpeed, 0);
+    }
+
+    else if (keyCode === RIGHT_ARROW) {
+        moveBox(boxSpeed, 0);
+    }
 }
 
 // 상자를 그려주는 함수
