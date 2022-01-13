@@ -43,8 +43,11 @@ function draw() {
     // 모든 상자 움직이기
     moveBoxes();
 
-    // 모서리 예외 처리하기
+    // 모서리 예외 처리하기 (반대편 이동)
     handleBoxEdges();
+
+    // 모서리 예외 처리하기 (상자 제거)
+    //deleteWhenOverWall();
 }
 
 // 모든 상자 그리기
@@ -76,6 +79,21 @@ function handleBoxEdges() {
             Y[i] = -boxSizes[i];
         } else if (Y[i] + boxSizes[i] < 0) {
             Y[i] = height;
+        }
+    }
+
+}
+
+// 상자가 모서리를 넘으면 제거
+function deleteWhenOverWall() {
+    for (var i = 0; i < boxSizes.length; i++) {
+        if (X[i] > width || X[i] + boxSizes[i] < 0 || Y[i] > height || Y[i] + boxSizes[i] < 0) {
+            boxSizes.splice(i, 1);
+            boxColors.splice(i, 1);
+            X.splice(i, 1);
+            Y.splice(i, 1);
+            sX.splice(i, 1);
+            sY.splice(i, 1);
         }
     }
 }
