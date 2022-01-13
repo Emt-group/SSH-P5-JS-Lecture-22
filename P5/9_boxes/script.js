@@ -57,6 +57,11 @@ function draw() {
         // 상자 움직이기
         boxX[i] = boxX[i] + velX[i];
         boxY[i] = boxY[i] + velY[i];
+        
+        /*
+         * 참고: '||'은 '또는' 이라는 논리 기호이다.
+         * 참고: '그리고'에 해당하는 기호는 '&&'가 있다.
+         */
 
         // 모서리에 닿으면 방향 전환 (x 방향)
         if (boxX[i] < 0 || boxX[i] > width) {
