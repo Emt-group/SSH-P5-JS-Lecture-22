@@ -1,14 +1,12 @@
 // p5.js 사용하기 예제 코드
 // 8. 키보드와 마우스 입력 제어하기
 /* 
- * 키보드와 마우스 입력을 통해 움직이는 상자를 조종할 수 있다.
+ * 키보드 또는 마우스 입력을 받았을 때 방향을 바꿀 수 있다.
  */
 
 var boxSize;        // 상자의 크기
 var boxX, boxY;     // 상자의 위치
-
-var boxSpeed;       // 상자의 속력
-var boxDirection;   // 상자의 방향
+var velX, velY;     // 상자의 속도
 
 function setup() {
     createCanvas(400, 400);
@@ -16,78 +14,60 @@ function setup() {
     // 상자 관련 변수 초기화
     boxSize = 20;
 
-    boxX = width / 4 - boxSize / 2;
-    boxY = height / 4 - boxSize / 2;
+    boxX = width / 4;
+    boxY = height / 4;
 
-    boxSpeed = 5;
-    boxDirection = 0;       // 상자의 방향, 0: 우하단, 1: 좌상단
+    // 초기 속도 설정
+    velX = 5;
+    velY = 2;
 }
 
 function draw() {
     background(50);
 
-    // 상자 그리기
-    drawBox();
+    rect(boxX, boxY, boxSize, boxSize);     // (boxX, boxY)위치에 boxSize 크기의 사각형을 그린다
 
-    // 모서리 예외 처리하기
-    handleBoxEdge();
+    // 상자 움직이기
+    boxX = boxX + velX;
+    boxY = boxY + velY;
+
+    // 박스가 벽에 닿았을 때 방향 바꾸기
+
+    /*
+     * 참고: '||'은 '또는' 이라는 논리 기호이다.
+     * 참고: '그리고'에 해당하는 기호는 '&&'가 있다.
+     */
+
+    // 왼쪽 또는 오른족 벽에 닿았을 때
+    if (boxX <= 0 || boxX > width) {
+        velX = -velX;
+    }
+
+    // 위쪽 또는 아래쪽 벽에 닿았을 때
+    if (boxY <= 0 || boxY > width) {
+        velY = -velY;
+    }
 }
 
-// 마우스 조작 제어
+/*
+ * keyPressed와 mousePressed 그리고 keyCode와 mouseButton는 p5.js에서 제공하는 함수와 변수이므로 임의로 이름을 변경할 수 없다.
+ * darw, keyPressed, mousePressed 함수는 각각 따로 동작하므로 keyPressed, mousePressed 함수를 darw에서 실행할 필요는 없다.
+ * 마우스 코드는 LEFT, CENTER, RIGHT가 있다.
+ * 키보드 코드는 keycode.info에서 확인할 수 있다.
+ */
+
+// 키보드 입력 처리
+function keyPressed() {
+    if (keyCode === 32) {
+        velX = -velX;
+        velY = -velY;
+    }
+}
+
+// 마우스 입력 처리
 function mousePressed() {
     if (mouseButton === LEFT) {
-        boxSpeed += 2;
-    }
-    
-    else if (mouseButton === CENTER) {
-        boxSpeed -= 2;
-
-        if (boxSpeed < 0)
-            boxSpeed = 0;
-    }
-}
-
-// 키보드 조작 제어
-function keyPressed() {
-    if (keyCode === UP_ARROW) {
-        moveBox(0, -boxSpeed);
-    }
-
-    else if (keyCode === DOWN_ARROW) {
-        moveBox(0, boxSpeed);
-    }
-
-    else if (keyCode === LEFT_ARROW) {
-        moveBox(-boxSpeed, 0);
-    }
-
-    else if (keyCode === RIGHT_ARROW) {
-        moveBox(boxSpeed, 0);
-    }
-}
-
-// 상자를 그려주는 함수
-function drawBox() {
-    rect(boxX, boxY, boxSize, boxSize);
-}
-
-// 상자의 위치를 amount만큼 움직이는 함수
-function moveBox(amountX, amountY) {
-    boxX += amountX;
-    boxY += amountY;
-}
-
-// 상자가 모서리에 다다랐을 때의 예외 처리
-function handleBoxEdge() {
-    if (boxX > width) {
-        boxX = -boxSize;
-    } else if (boxX + boxSize < 0) {
-        boxX = width;
-    }
-
-    if (boxY > height) {
-        boxY = -boxSize;
-    } else if (boxY + boxSize < 0) {
-        boxY = height;
+        velX = -velX;
+        velY = -velY;
     }
 }

@@ -1,14 +1,14 @@
 // p5.js 사용하기 예제 코드
 // 9. 상자 여러 개 만들기
 /* 
- * 배열과 함수를 사용해서 여려 개의 상자를 제어할 수 있다.
+ * 배열과 함수를 사용해서 여러 개의 상자를 제어할 수 있다.
  */
 
 // 박스에 대한 정보를 저장할 변수 (배열로 사용할 것임)
 var boxSizes;
 var boxColors;
-var X, Y;
-var sX, sY;
+var boxX, boxY;
+var velX, velY;
 
 function setup() {
     createCanvas(400, 400);
@@ -16,20 +16,31 @@ function setup() {
     // 박스에 대한 정보를 배열에 저장하므로 빈 배열로 초기화
     boxSizes = [];
     boxColors = [];
-    X = [];
-    Y = [];
-    sX = [];
-    sY = [];
+    boxX = [];
+    boxY = [];
+    velX = [];
+    velY = [];
 
     for (var i = 0; i < 10; i++) {
         // 빈 배열에 push하여 박스 속성 설정
         // 모든 값은 random 함수를 이용함
-        boxSizes.push(random(50));
-        boxColors.push(color(random(127, 255), random(127, 255), random(127, 255), random(127, 255)));
-        X.push(random(width));
-        Y.push(random(height));
-        sX.push(random(10));
-        sY.push(random(20));
+
+        /* push가 뭔가요?
+         * push는 자바스크립트에서 제공하는 배열 함수로, 배열의 끝에 새로운 원소를 추가해줍니다.
+         * push와 반대로 pop은 배열의 마지막 요소를 제거합니다.
+         * 참고: https://gent.tistory.com/295
+         */
+
+        boxSizes.push(random(50));      // 배열에 랜덤 상자 크기 push
+        boxColors.push(color(random(127, 255), random(127, 255), random(127, 255), random(127, 255)));      // 배열에 랜덤 색상 push
+
+        // 상자가 캔버스 내에 있도록 랜덤 좌표 할당
+        boxX.push(random(width));           // 배열에 상자의 x 정보 push
+        boxY.push(random(height));          // 배열에 상자의 y 정보 push
+
+        // 상자에 랜덤 속도 할당
+        velX.push(random(10));              // 배열에 상자의 x 속도 push
+        velY.push(random(20));              // 배열에 상자의 y 속도 push
     }
 }
 
@@ -37,63 +48,29 @@ function draw() {
     background(50);
     noStroke();
     
-    // 모든 상자 그리기
-    drawBoxes();
-
-    // 모든 상자 움직이기
-    moveBoxes();
-
-    // 모서리 예외 처리하기 (반대편 이동)
-    handleBoxEdges();
-
-    // 모서리 예외 처리하기 (상자 제거)
-    //deleteWhenOverWall();
-}
-
-// 모든 상자 그리기
-function drawBoxes() {
+    // 배열에 있는 모든 상자를 그려하 하므로 반복문 사용
     for (var i = 0; i < boxSizes.length; i++) {
+        // 상자 그리기
         fill(boxColors[i]);
-        rect(X[i] - boxSizes[i] / 2, Y[i] - boxSizes[i] / 2, boxSizes[i], boxSizes[i]);
-    }
-}
+        rect(boxX[i], boxY[i], boxSizes[i], boxSizes[i]);
 
-// 모든 상자 움직이기
-function moveBoxes() {
-    for (var i = 0; i < boxSizes.length; i++) {
-        X[i] += sX[i];
-        Y[i] += sY[i];
-    }
-}
+        // 상자 움직이기
+        boxX[i] = boxX[i] + velX[i];
+        boxY[i] = boxY[i] + velY[i];
+        
+        /*
+         * 참고: '||'은 '또는' 이라는 논리 기호이다.
+         * 참고: '그리고'에 해당하는 기호는 '&&'가 있다.
+         */
 
-// 모든 상자에 대한 모서리 예외 처리
-function handleBoxEdges() {
-    for (var i = 0; i < boxSizes.length; i++) {
-        if (X[i] > width) {
-            X[i] = -boxSizes[i];
-        } else if (X[i] + boxSizes[i] < 0) {
-            X[i] = width;
+        // 모서리에 닿으면 방향 전환 (x 방향)
+        if (boxX[i] < 0 || boxX[i] > width) {
+            velX[i] = -velX[i];
         }
 
-        if (Y[i] > height) {
-            Y[i] = -boxSizes[i];
-        } else if (Y[i] + boxSizes[i] < 0) {
-            Y[i] = height;
-        }
-    }
-
-}
-
-// 상자가 모서리를 넘으면 제거
-function deleteWhenOverWall() {
-    for (var i = 0; i < boxSizes.length; i++) {
-        if (X[i] > width || X[i] + boxSizes[i] < 0 || Y[i] > height || Y[i] + boxSizes[i] < 0) {
-            boxSizes.splice(i, 1);
-            boxColors.splice(i, 1);
-            X.splice(i, 1);
-            Y.splice(i, 1);
-            sX.splice(i, 1);
-            sY.splice(i, 1);
+        // 모서리에 닿으면 방향 전환 (y 방향)
+        if (boxY[i] < 0 || boxY[i] > width) {
+            velY[i] = -velY[i];
         }
     }
 }
