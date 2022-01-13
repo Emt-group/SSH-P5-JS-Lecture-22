@@ -25,6 +25,12 @@ function setup() {
         // 빈 배열에 push하여 박스 속성 설정
         // 모든 값은 random 함수를 이용함
 
+        /* push가 뭔가요?
+         * push는 자바스크립트에서 제공하는 배열 함수로, 배열의 끝에 새로운 원소를 추가해줍니다.
+         * push와 반대로 pop은 배열의 마지막 요소를 제거합니다.
+         * 참고: https://gent.tistory.com/295
+         */
+
         boxSizes.push(random(50));      // 배열에 랜덤 상자 크기 push
         boxColors.push(color(random(127, 255), random(127, 255), random(127, 255), random(127, 255)));      // 배열에 랜덤 색상 push
 
