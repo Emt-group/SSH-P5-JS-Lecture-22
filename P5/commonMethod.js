@@ -90,3 +90,17 @@ function handleBoxEdges() {
         }
     }
 }
+
+// 상자가 모서리를 넘으면 제거
+function deleteWhenOverWall() {
+    for (var i = 0; i < boxSizes.length; i++) {
+        if (X[i] > width || X[i] + boxSizes[i] < 0 || Y[i] > height || Y[i] + boxSizes[i] < 0) {
+            boxSizes.splice(i, 1);
+            boxColors.splice(i, 1);
+            X.splice(i, 1);
+            Y.splice(i, 1);
+            sX.splice(i, 1);
+            sY.splice(i, 1);
+        }
+    }
+}
